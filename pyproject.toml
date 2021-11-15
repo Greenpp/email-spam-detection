@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "email-spam-detection"
+version = "0.1.0"
+description = ""
+authors = ["Jakub Ciszek <jakubciszek64@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pytorch-lightning = "^1.5.1"
+wandb = "^0.12.6"
+dvc = {version = "^2.8.3", extras = ["gdrive"]}
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2.5"
+black = "^21.10b0"
+ipykernel = "^6.5.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

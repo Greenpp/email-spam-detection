@@ -1,0 +1,10 @@
+vars:
+  - email_spam_detection/settings.py:LocationConfig
+
+stages:
+  extract:
+    cmd: poetry run python scripts/extract.py
+    deps:
+      - ${LocationConfig.raw_data_dir}
+    outs:
+      - ${LocationConfig.extracted_data_file}

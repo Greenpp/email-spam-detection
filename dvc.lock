@@ -1,0 +1,13 @@
+schema: '2.0'
+stages:
+  extract:
+    cmd: poetry run python scripts/extract.py
+    deps:
+    - path: data/raw
+      md5: c2d29690c4693e6d072f4a7a9ba32b52.dir
+      size: 17344943
+      nfiles: 6
+    outs:
+    - path: data/extracted.json
+      md5: 79e1a4dfdc4053b90515337afc6718e7
+      size: 52886978

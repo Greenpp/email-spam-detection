@@ -8,3 +8,9 @@ stages:
       - ${LocationConfig.raw_data_dir}
     outs:
       - ${LocationConfig.extracted_data_file}
+  preprocess_subjects:
+    cmd: poetry run python scripts/subjects.py
+    deps:
+      - ${LocationConfig.extracted_data_file}
+    outs:
+      - ${LocationConfig.subjects_data_file}

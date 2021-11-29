@@ -1,5 +1,13 @@
 # %%
-import pandas as pd
+from email_spam_detection.dataset.datamodule import EmailSpamDataModule
+
 # %%
-df = pd.read_json('data/extracted.json')
+dm = EmailSpamDataModule(0)
+dm.prepare_data()
+# %%
+tr = dm.train_dataloader()
+# %%
+next(iter(tr))
+# %%
+len(tr)
 # %%

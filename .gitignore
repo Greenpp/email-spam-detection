@@ -139,3 +139,7 @@ cython_debug/
 
 .vscode
 .tmp
+
+lightning_logs
+wandb
+email-spam-detection

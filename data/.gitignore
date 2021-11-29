@@ -1,3 +1,5 @@
 /raw
 /extracted.json
 /subjects.json
+/processed.json
+/cv_indices.bin

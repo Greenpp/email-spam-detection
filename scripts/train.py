@@ -8,7 +8,7 @@ from pytorch_lightning.loggers import WandbLogger
 if __name__ == '__main__':
     pl.seed_everything(RANDOM_SEED)
 
-    datamodule = EmailSpamDataModule(0)
+    datamodule = EmailSpamDataModule(0, input_label='msg')
     model = EmailSpamDetector()
 
     logger = WandbLogger(

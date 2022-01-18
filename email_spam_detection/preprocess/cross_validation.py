@@ -3,14 +3,14 @@ import pickle as pkl
 import pandas as pd
 from sklearn.model_selection import StratifiedKFold
 
-from ..settings import RANDOM_SEED, DataConfig, LocationConfig, TrainingConfig
+from ..settings import RANDOM_SEED, DataConfig, LocationConfig
 
 
 def generate_cross_validation_labels():
     processed_data = pd.read_json(LocationConfig.processed_data_file)
 
     skf = StratifiedKFold(
-        TrainingConfig.cv_splits,
+        DataConfig.cv_splits,
         shuffle=True,
         random_state=RANDOM_SEED,
     )

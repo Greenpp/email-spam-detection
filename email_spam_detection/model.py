@@ -3,7 +3,7 @@ import torch
 import torchmetrics
 from transformers import AutoModelForSequenceClassification
 
-from .settings import ModelConfig
+from .settings import ModelConfig, TrainingConfig
 
 
 class EmailSpamDetector(pl.LightningModule):
@@ -42,4 +42,12 @@ class EmailSpamDetector(pl.LightningModule):
         return {'val_loss': val_loss}
 
     def configure_optimizers(self):
-        return torch.optim.Adam(self.parameters(), lr=0.001)
+        return torch.optim.Adam(
+            self.parameters(),
+            lr=TrainingConfig.learning_rate,
+            betas=(
+                TrainingConfig.adam_beta_1,
+                TrainingConfig.adam_beta_2,
+            ),
+            weight_decay=TrainingConfig.l2_norm,
+        )

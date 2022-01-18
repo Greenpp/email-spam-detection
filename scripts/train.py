@@ -6,6 +6,10 @@ from email_spam_detection.settings import (
     TrainingConfig,
     WandbConfig,
 )
+from pytorch_lightning.callbacks import (
+    ModelCheckpoint,
+    StochasticWeightAveraging,
+)
 from pytorch_lightning.loggers import WandbLogger
 
 if __name__ == '__main__':
@@ -28,12 +32,11 @@ if __name__ == '__main__':
         gpus=1,
         max_epochs=TrainingConfig.epochs,
         logger=logger,
-        auto_scale_batch_size='binsearch',
         precision=16,
-    )
-    trainer.tune(
-        model,
-        datamodule=datamodule,
+        callbacks=[
+            StochasticWeightAveraging(),
+            ModelCheckpoint(save_top_k=0),
+        ],
     )
     trainer.fit(
         model,

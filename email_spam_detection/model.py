@@ -15,8 +15,17 @@ class EmailSpamDetector(pl.LightningModule):
             num_labels=1,
             torch_dtype=torch.float,
         )
-        self.train_acc = torchmetrics.Accuracy()
-        self.val_acc = torchmetrics.Accuracy()
+
+        metrics = torchmetrics.MetricCollection(
+            [
+                torchmetrics.Accuracy(),
+                torchmetrics.Precision(),
+                torchmetrics.Recall(),
+                torchmetrics.F1(1),
+            ]
+        )
+        self.train_metrics = metrics.clone(prefix='train_')
+        self.validation_metrics = metrics.clone(prefix='validation_')
 
     def forward(self, **input):
         return self.model(**input)
@@ -25,10 +34,11 @@ class EmailSpamDetector(pl.LightningModule):
         outputs = self(**batch)
         loss = outputs.loss
 
-        self.train_acc(outputs.logits.squeeze(), batch['labels'].int())
-        self.log(
-            'train_acc', self.train_acc, on_step=True, on_epoch=False, prog_bar=True
+        metrics_output = self.train_metrics(
+            outputs.logits.squeeze(), batch['labels'].int()
         )
+        self.log_dict(metrics_output, on_step=True, on_epoch=False)
+        self.log('train_loss', loss, on_step=True, on_epoch=False, prog_bar=True)
 
         return loss
 
@@ -36,10 +46,13 @@ class EmailSpamDetector(pl.LightningModule):
         outputs = self(**batch)
         val_loss = outputs.loss
 
-        self.val_acc(outputs.logits.squeeze(), batch['labels'].int())
-        self.log('val_acc', self.val_acc, on_step=True, on_epoch=True, prog_bar=True)
-
-        return {'val_loss': val_loss}
+        metrics_output = self.validation_metrics(
+            outputs.logits.squeeze(), batch['labels'].int()
+        )
+        self.log_dict(metrics_output, on_step=False, on_epoch=True)
+        self.log(
+            'validation_loss', val_loss, on_step=False, on_epoch=True, prog_bar=True
+        )
 
     def configure_optimizers(self):
         return torch.optim.Adam(

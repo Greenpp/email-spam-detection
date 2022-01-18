@@ -21,8 +21,8 @@ class DataConfig:
 
 class TrainingConfig:
     learning_rate = 10e-5
-    epochs = 5
-    batch_size = 2
+    epochs = 10
+    batch_size = 128
     cv_fold = 0
 
     adam_beta_1 = 0.9

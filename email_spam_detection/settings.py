@@ -33,5 +33,5 @@ class TrainingConfig:
 
 class WandbConfig:
     project_name = 'email-spam-detection'
-    run_name = f'beta1={TrainingConfig.adam_beta_1}:beta2={TrainingConfig.adam_beta_2}:l2={TrainingConfig.l2_norm}:label={TrainingConfig.input_label}:fold={TrainingConfig.cv_fold}'
-    group_name = f'beta1={TrainingConfig.adam_beta_1}:beta2={TrainingConfig.adam_beta_2}:l2={TrainingConfig.l2_norm}:label={TrainingConfig.input_label}'
+    run_name = 'test-1'
+    group_name = 'test-1'

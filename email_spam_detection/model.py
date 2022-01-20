@@ -1,9 +1,11 @@
+import numpy as np
 import pytorch_lightning as pl
 import torch
 import torchmetrics
+import wandb
 from transformers import AutoModelForSequenceClassification
 
-from .settings import ModelConfig, TrainingConfig
+from .settings import ModelConfig
 
 
 class EmailSpamDetector(pl.LightningModule):
@@ -54,13 +56,18 @@ class EmailSpamDetector(pl.LightningModule):
             'validation_loss', val_loss, on_step=False, on_epoch=True, prog_bar=True
         )
 
+        return val_loss.cpu()
+
+    def validation_epoch_end(self, outputs: list) -> None:
+        self.last_validation_loss = np.array(outputs).mean()
+
     def configure_optimizers(self):
         return torch.optim.Adam(
             self.parameters(),
-            lr=TrainingConfig.learning_rate,
+            lr=wandb.config.lr,
             betas=(
-                TrainingConfig.adam_beta_1,
-                TrainingConfig.adam_beta_2,
+                wandb.config.beta1,
+                wandb.config.beta2,
             ),
-            weight_decay=TrainingConfig.l2_norm,
+            weight_decay=wandb.config.l2,
         )

@@ -29,14 +29,14 @@ stages:
       size: 52886978
     outs:
     - path: data/processed.json
-      md5: 510a8ffe021f707fbea1a3c963c78d94
-      size: 23232032
+      md5: 1a563ff43fe9d4da5e614ee8c540b790
+      size: 46378943
   prepare_cv:
     cmd: poetry run python scripts/prepare_cv.py
     deps:
     - path: data/processed.json
-      md5: 510a8ffe021f707fbea1a3c963c78d94
-      size: 23232032
+      md5: 1a563ff43fe9d4da5e614ee8c540b790
+      size: 46378943
     outs:
     - path: data/cv_indices.bin
       md5: b4b87d0f9ece2bbab1bbeaa591279706

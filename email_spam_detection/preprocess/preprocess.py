@@ -31,7 +31,7 @@ def preprocess() -> None:
         & ~data['om']
         & ~data['forward2']
         & ~data['markers']
-    ][['subject', 'msg', 'spam']]
+    ][['text', 'subject', 'msg', 'spam']]
 
     sampler = RandomUnderSampler(random_state=RANDOM_SEED)
     clean_resampled_data, _ = sampler.fit_resample(clean_data, clean_data['spam'])

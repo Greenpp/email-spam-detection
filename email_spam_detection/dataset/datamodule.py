@@ -13,8 +13,8 @@ class EmailSpamDataModule(pl.LightningDataModule):
     def __init__(
         self,
         fold_num: int,
-        batch_size: int = 16,
-        input_label: str = 'subject',
+        batch_size: int,
+        input_label: str,
     ):
         self.input_label = input_label
         self.fold_num = fold_num

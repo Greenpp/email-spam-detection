@@ -1,5 +1,6 @@
 vars:
   - email_spam_detection/settings.py:LocationConfig
+  - email_spam_detection/settings.py:TrainingConfig
 
 stages:
   extract:
@@ -8,7 +9,7 @@ stages:
       - ${LocationConfig.raw_data_dir}
     outs:
       - ${LocationConfig.extracted_data_file}
-        
+
   preprocess:
     cmd: poetry run python scripts/preprocess.py
     deps:
@@ -22,3 +23,8 @@ stages:
       - ${LocationConfig.processed_data_file}
     outs:
       - ${LocationConfig.cv_indices_file}
+
+  train:
+    cmd: poetry run python scripts/train.py
+    deps:
+      - ${TrainingConfig}

@@ -11,7 +11,6 @@ class LocationConfig:
 
 class ModelConfig:
     model = 'distilbert-base-uncased'
-    # model = 'xlnet-base-cased'
 
 
 class DataConfig:
@@ -20,9 +19,10 @@ class DataConfig:
 
 
 class TrainingConfig:
+    input_label = 'msg'
     learning_rate = 10e-5
     epochs = 10
-    batch_size = 128
+    batch_size = 256
     cv_fold = 0
 
     adam_beta_1 = 0.9

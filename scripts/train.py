@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     datamodule = EmailSpamDataModule(
         fold_num=TrainingConfig.cv_fold,
-        input_label='msg',
+        input_label=TrainingConfig.input_label,
         batch_size=TrainingConfig.batch_size,
     )
     model = EmailSpamDetector()
@@ -32,6 +32,7 @@ if __name__ == '__main__':
         gpus=1,
         max_epochs=TrainingConfig.epochs,
         logger=logger,
+        log_every_n_steps=10,
         precision=16,
         callbacks=[
             StochasticWeightAveraging(),

@@ -18,10 +18,10 @@ class EmailSpamDetector(pl.LightningModule):
 
         metrics = torchmetrics.MetricCollection(
             [
-                torchmetrics.Accuracy(),
-                torchmetrics.Precision(),
-                torchmetrics.Recall(),
-                torchmetrics.F1(1),
+                torchmetrics.Accuracy(num_classes=2, multiclass=True),
+                torchmetrics.Precision(num_classes=2, multiclass=True),
+                torchmetrics.Recall(num_classes=2, multiclass=True),
+                torchmetrics.F1(num_classes=2, multiclass=True),
             ]
         )
         self.train_metrics = metrics.clone(prefix='train_')

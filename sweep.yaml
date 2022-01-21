@@ -1,5 +1,5 @@
-name: Sweep v0.2
-description: Using validation accuracy
+name: Sweep v0.3
+description: Using validation accuracy and values distributed around default ones
 program: train.py
 method: bayes
 metric:
@@ -9,14 +9,18 @@ parameters:
   input_label:
     values: ["msg", "subject"]
   lr:
-    min: 0.0000001
+    distribution: uniform
+    min: 0.000001
     max: 0.1
   l2:
+    distribution: uniform
     min: 0.0
-    max: 1.0
+    max: 0.5
   beta1:
-    min: 0.6
+    distribution: uniform
+    min: 0.8
     max: 1.0
   beta2:
-    min: 0.8
+    distribution: uniform
+    min: 0.9
     max: 1.0

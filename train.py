@@ -2,13 +2,13 @@ import multiprocessing
 import os
 
 import pytorch_lightning as pl
+import wandb
 from pytorch_lightning.callbacks import (
     ModelCheckpoint,
     StochasticWeightAveraging,
 )
 from pytorch_lightning.loggers import WandbLogger
 
-import wandb
 from email_spam_detection.dataset.datamodule import EmailSpamDataModule
 from email_spam_detection.model import EmailSpamDetector
 from email_spam_detection.settings import (
@@ -45,9 +45,9 @@ class WorkerData:
 class DoneData:
     def __init__(
         self,
-        validation_loss: float,
+        validation_accuracy: float,
     ) -> None:
-        self.validation_loss = validation_loss
+        self.validation_accuracy = validation_accuracy
 
 
 def reset_wandb_env():
@@ -65,6 +65,7 @@ def train(sweep_q, worker_q):
     reset_wandb_env()
 
     worker_data: WorkerData = worker_q.get()
+
     pl.seed_everything(RANDOM_SEED)
     run_name = "{}-{}".format(worker_data.sweep_run_name, worker_data.fold)
     config = worker_data.config
@@ -99,8 +100,10 @@ def train(sweep_q, worker_q):
         model,
         datamodule=datamodule,
     )
-    wandb.join()
-    sweep_q.put(DoneData(model.last_validation_loss))
+
+    validation_accuracy = wandb.run.summary['validation_Accuracy']
+    wandb.finish()
+    sweep_q.put(DoneData(validation_accuracy))
 
 
 if __name__ == '__main__':
@@ -115,11 +118,8 @@ if __name__ == '__main__':
         workers.append(Worker(queue=q, process=p))
 
     sweep_run = wandb.init()
+
     sweep_id = sweep_run.sweep_id or "unknown"
-    sweep_url = sweep_run.get_sweep_url()
-    project_url = sweep_run.get_project_url()
-    sweep_group_url = "{}/groups/{}".format(project_url, sweep_id)
-    sweep_run.notes = sweep_group_url
     sweep_run_name = sweep_run.name or sweep_run.id or "unknown"
 
     metrics = []
@@ -137,6 +137,6 @@ if __name__ == '__main__':
 
         result: DoneData = sweep_q.get()
         worker.process.join()
-        metrics.append(result.validation_loss)
+        metrics.append(result.validation_accuracy)
 
-    sweep_run.log({'validation_loss': sum(metrics) / len(metrics)})
+    sweep_run.log({'validation_accuracy': sum(metrics) / len(metrics)})

@@ -1,4 +1,3 @@
-import numpy as np
 import pytorch_lightning as pl
 import torch
 import torchmetrics
@@ -55,11 +54,6 @@ class EmailSpamDetector(pl.LightningModule):
         self.log(
             'validation_loss', val_loss, on_step=False, on_epoch=True, prog_bar=True
         )
-
-        return val_loss.cpu()
-
-    def validation_epoch_end(self, outputs: list) -> None:
-        self.last_validation_loss = np.array(outputs).mean()
 
     def configure_optimizers(self):
         return torch.optim.Adam(

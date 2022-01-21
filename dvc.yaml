@@ -22,13 +22,3 @@ stages:
       - ${LocationConfig.processed_data_file}
     outs:
       - ${LocationConfig.cv_indices_file}
-
-  train:
-    cmd: poetry run python scripts/train.py
-    params:
-      - email_spam_detection/settings.py:
-          - TrainingConfig.input_label
-          - TrainingConfig.cv_fold
-          - TrainingConfig.adam_beta_1
-          - TrainingConfig.adam_beta_2
-          - TrainingConfig.l2_norm

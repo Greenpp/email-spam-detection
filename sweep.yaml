@@ -10,12 +10,12 @@ parameters:
     values: ["msg", "subject"]
   lr:
     distribution: log_uniform
-    min: 0.000001
-    max: 0.1
+    min: -13.815510557964274 # log(0.000001)
+    max: -2.3025850929940455 # log(0.1) 
   l2:
     distribution: log_uniform
-    min: 0.0
-    max: 0.6
+    min: -23.025850929940457 # log(0.0000000001)
+    max: -0.5108256237659907 # log(0.6)
   beta1:
     distribution: uniform
     min: 0.85

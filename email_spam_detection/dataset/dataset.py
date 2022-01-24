@@ -18,3 +18,13 @@ class EmailSpamDataset(Dataset):
 
     def __getitem__(self, index) -> tuple[str, int]:
         return self.X[index], self.y[index]
+
+class PredictionEmailSpamDataset(Dataset):
+    def __init__(self, messages: list[str]) -> None:
+        self.X = messages
+
+    def __len__(self) -> int:
+        return len(self.X)
+
+    def __getitem__(self, index) -> tuple[str, int]:
+        return self.X[index], -1

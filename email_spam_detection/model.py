@@ -1,10 +1,9 @@
 import pytorch_lightning as pl
 import torch
 import torchmetrics
-import wandb
 from transformers import AutoModelForSequenceClassification
 
-from .settings import ModelConfig
+from .settings import ModelConfig, TrainingConfig
 
 
 class EmailSpamDetector(pl.LightningModule):
@@ -58,10 +57,10 @@ class EmailSpamDetector(pl.LightningModule):
     def configure_optimizers(self):
         return torch.optim.Adam(
             self.parameters(),
-            lr=wandb.config.lr,
+            lr=TrainingConfig.learning_rate,
             betas=(
-                wandb.config.beta1,
-                wandb.config.beta2,
+                TrainingConfig.adam_beta_1,
+                TrainingConfig.adam_beta_2,
             ),
-            weight_decay=wandb.config.l2,
+            weight_decay=TrainingConfig.l2_norm,
         )

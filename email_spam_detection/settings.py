@@ -20,15 +20,15 @@ class DataConfig:
 
 class TrainingConfig:
     input_label = 'msg'
-    learning_rate = 10e-5
+    learning_rate = 0.00005839
     epochs = 10
     batch_size = 256
     cv_fold = 0
 
-    adam_beta_1 = 0.9
-    adam_beta_2 = 0.999
+    adam_beta_1 = 0.9125
+    adam_beta_2 = 0.996
 
-    l2_norm = 0.0
+    l2_norm = 1.230e-7
 
 
 class WandbConfig:
